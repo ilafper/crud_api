@@ -50,17 +50,7 @@ app.get('/api/predicciones', async (req, res) => {
 });
 
 
-app.get('/api/', async (req, res) => {
-  try {
-    const { inventario } = await connectToMongoDB();
-    const lista_inve = await inventario.find().toArray();
-    console.log("inventarioGET:", lista_inve);
-    res.json(lista_inve);
-  } catch (error) {
-    console.error("Error al obtener INVENTARIOGET:", error);
-    res.status(500).json({ error: 'Error al obtener EL INVENTARIOGET' });
-  }
-});
+
 
 
 
