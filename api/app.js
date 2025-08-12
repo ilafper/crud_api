@@ -20,7 +20,7 @@ async function connectToMongoDB() {
     console.log("Conectado a MongoDB Atlas");
     const db = client.db('tiempo');
     return {
-      predicciones: db.collection('preddiones'),
+      predicciones: db.collection('predicciones'),
       
     };
   } catch (error) {
