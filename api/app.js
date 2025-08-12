@@ -18,10 +18,9 @@ async function connectToMongoDB() {
   try {
     await client.connect();
     console.log("Conectado a MongoDB Atlas");
-    const db = client.db('minecraft');
+    const db = client.db('tiempo');
     return {
-      cartas: db.collection('cartas'),
-      inventario: db.collection('inventario')
+      predicciones: db.collection('preddiones'),
       
     };
   } catch (error) {
@@ -38,12 +37,12 @@ app.use((req, res, next) => {
 });
 
 
-app.get('/api/productos', async (req, res) => {
+app.get('/api/predicciones', async (req, res) => {
   try {
-    const { cartas } = await connectToMongoDB();
-    const lista_cartas = await cartas.find().toArray();
-    console.log("cartitas:", lista_cartas);
-    res.json(lista_cartas);
+    const { predicciones } = await connectToMongoDB();
+    const lista_predics = await predicciones.find().toArray();
+    console.log("predict:", lista_predics);
+    res.json(lista_predics);
   } catch (error) {
     console.error("Error al obtener al cartas:", error);
     res.status(500).json({ error: 'Error al obtener las cartas' });
