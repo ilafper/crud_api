@@ -94,7 +94,7 @@ app.delete('/api/borrar', async (req, res) => {
             return res.status(404).json({ mensaje: 'Carta no encontrada' });
         }
 
-        res.json({ mensaje: 'Carta borrada correctamente', carta: cartaBorrada });
+        res.json({ mensaje: 'Carta borrada correctamente', carta: predictBorrada });
     } catch (error) {
         console.error(error);
         res.status(500).json({ mensaje: 'Error al borrar la carta' });
