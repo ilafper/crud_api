@@ -77,28 +77,25 @@ app.post('/api/crear', async (req, res) => {
 
 
 app.delete('/api/borrar', async (req, res) => {
-  const { predicciones } = await connectToMongoDB();
+    const { predicciones } = await connectToMongoDB();
+    const { id } = req.body;
 
-  const { id } = req.body;
-
-
-  // ver si mandamos el id
-  if (!id) {
-    return res.status(400).json({ mensaje: 'No se proporcionó ID' });
-  }
-
-  try {
-    const predictBorrada = await predicciones.findByIdAndDelete(id);
-
-    if (!predictBorrada) {
-      return res.status(404).json({ mensaje: 'Carta no encontrada' });
+    if (!id) {
+        return res.status(400).json({ mensaje: 'No se proporcionó ID' });
     }
 
-    res.json({ mensaje: 'Carta borrada correctamente', carta: predictBorrada });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ mensaje: 'Error al borrar la carta' });
-  }
+    try {
+        const resultado = await predicciones.deleteOne({ _id: new ObjectId(id) });
+
+        if (resultado.deletedCount === 0) {
+            return res.status(404).json({ mensaje: 'Carta no encontrada' });
+        }
+
+        res.json({ mensaje: 'Carta borrada correctamente' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ mensaje: 'Error al borrar la carta' });
+    }
 });
 
 
