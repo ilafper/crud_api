@@ -98,6 +98,12 @@ app.delete('/api/borrar', async (req, res) => {
     }
 });
 
+app.put('/api/actualizar/:id', (req, res) => {
+    const { id } = req.params;
+    const datos = req.body;
+    // Lógica para actualizar en DB usando el ID
+});
+
 
 
 
