@@ -21,7 +21,7 @@ async function connectToMongoDB() {
     const db = client.db('tiempo');
     return {
       predicciones: db.collection('predicciones'),
-      
+
     };
   } catch (error) {
     console.error("Error al conectar a MongoDB:", error);
@@ -56,7 +56,7 @@ app.post('/api/crear', async (req, res) => {
     // Obtenemos los datos del body
     const nuevaPredict = req.body;
 
-    
+
     if (!nuevaPredict || Object.keys(nuevaPredict).length === 0) {
       return res.status(400).json({ error: 'No se recibieron datos para guardar' });
     }
@@ -77,28 +77,28 @@ app.post('/api/crear', async (req, res) => {
 
 
 app.delete('/api/borrar', async (req, res) => {
-   const { predicciones } = await connectToMongoDB();
+  const { predicciones } = await connectToMongoDB();
 
-    const { id } = req.body; 
+  const { id } = req.body;
 
 
-    // ver si mandamos el id
-    if (!id) {  
-        return res.status(400).json({ mensaje: 'No se proporcionó ID' });
+  // ver si mandamos el id
+  if (!id) {
+    return res.status(400).json({ mensaje: 'No se proporcionó ID' });
+  }
+
+  try {
+    const predictBorrada = await predicciones.findByIdAndDelete(id);
+
+    if (!predictBorrada) {
+      return res.status(404).json({ mensaje: 'Carta no encontrada' });
     }
 
-    try {
-        const predictBorrada = await predicciones.findByIdAndDelete(id);
-
-        if (!predictBorrada) {
-            return res.status(404).json({ mensaje: 'Carta no encontrada' });
-        }
-
-        res.json({ mensaje: 'Carta borrada correctamente', carta: predictBorrada });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ mensaje: 'Error al borrar la carta' });
-    }
+    res.json({ mensaje: 'Carta borrada correctamente', carta: predictBorrada });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ mensaje: 'Error al borrar la carta' });
+  }
 });
 
 
