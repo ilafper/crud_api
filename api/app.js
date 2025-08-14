@@ -49,6 +49,31 @@ app.get('/api/predicciones', async (req, res) => {
   }
 });
 
+app.post('/api/crear', async (req, res) => {
+  try {
+    const { predicciones } = await connectToMongoDB();
+
+    // Obtenemos los datos del body
+    const nuevaPredict = req.body;
+
+    
+    if (!nuevaPredict || Object.keys(nuevaPredict).length === 0) {
+      return res.status(400).json({ error: 'No se recibieron datos para guardar' });
+    }
+
+    // Insertar en la colección
+    const resultado = await predicciones.insertOne(nuevaPredict);
+
+    res.status(201).json({
+      mensaje: 'Predicción guardada correctamente',
+      id: resultado.insertedId
+    });
+  } catch (error) {
+    console.error("Error al crear la predicción:", error);
+    res.status(500).json({ error: 'Error al guardar la predicción' });
+  }
+});
+
 
 
 
