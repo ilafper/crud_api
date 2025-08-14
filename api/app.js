@@ -73,13 +73,13 @@ app.post('/api/crear', async (req, res) => {
     res.status(500).json({ error: 'Error al guardar la predicción' });
   }
 });
-
+//a
 app.post('/api/borrar', async (req, res) => {
    const { predicciones } = await connectToMongoDB();
 
     const { id } = req.body; 
 
-    
+
     // ver si mandamos el id
     if (!id) {
         return res.status(400).json({ mensaje: 'No se proporcionó ID' });
